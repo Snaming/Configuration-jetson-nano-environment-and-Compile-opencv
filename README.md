@@ -17,23 +17,23 @@
 
 4、安装OpenCV
   要在Jetson Nano上安装Open CV，您需要从源代码构建它。构建OpenCV的第一步是在Jetson Nano上定义交换空间。Jetson Nano具有4GBRAM。这不足以从源代码构建OpenCV。因此，我们需要在Nano上定义交换空间以防止内存崩溃。
-  # Allocates 4G of additional swap space at /var/swapfile
+  #Allocates 4G of additional swap space at /var/swapfile
   sudo fallocate -l 4G /var/swapfile
-  # Permissions
+  #Permissions
   sudo chmod 600 /var/swapfile
-  # Make swap space
+  #Make swap space
   sudo mkswap /var/swapfile
-  # Turn on swap
+  #Turn on swap
   sudo swapon /var/swapfile
-  # Automount swap space on reboot
+  #Automount swap space on reboot
   sudo bash -c 'echo "/var/swapfile swap swap defaults 0 0" >> /etc/fstab'
-  # Reboot
+  #Reboot
   sudo reboot
   现在您应该有足够的交换空间来构建OpenCV。让我们用构建OpenCV的前提条件设置Jetson Nano。
-  # Update
+  #Update
   sudo apt-get update
   sudo apt-get upgrade
-  # Pre-requisites
+  #Pre-requisites
   sudo apt-get install build-essential cmake unzip pkg-config
   sudo apt-get install libjpeg-dev libpng-dev libtiff-dev
   sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
@@ -42,58 +42,58 @@
   sudo apt-get install libatlas-base-dev gfortran
   sudo apt-get install python3-dev
   现在，您应该拥有所需的所有先决条件。因此，让我们继续下载OpenCV的源代码。
-  # Create a directory for opencv
+  #Create a directory for opencv
   mkdir -p projects/cv2
   cd projects/cv2
 
-  # Download sources
+  #Download sources
   wget -O opencv.zip https://github.com/opencv/opencv/archive/4.1.0.zip
   wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.1.0.zip
 
-  # Unzip
+  #Unzip
   unzip opencv.zip
   unzip opencv_contrib.zip
 
-  # Rename
+  #Rename
   mv opencv-4.1.0 opencv
   mv opencv_contrib-4.1.0 opencv_contrib
   让我们env为OpenCV准备好虚拟环境（）。
-  # Install Numpy
+  #Install Numpy
   pip install numpy
   现在，让我们CMake正确设置，以便它为我们的虚拟环境生成正确的OpenCV绑定。
-  # Create a build directory
+  #Create a build directory
   cd projects/cv2/opencv
   mkdir build
   cd build
 
-  # Setup CMake
+  #Setup CMake
   cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
     -D INSTALL_PYTHON_EXAMPLES=ON \
     -D INSTALL_C_EXAMPLES=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
-    # Contrib path
+    #Contrib path
     -D OPENCV_EXTRA_MODULES_PATH=~/projects/cv2/opencv_contrib/modules \
-    # Your virtual environment's Python executable
-    # You need to specify the result of echo $(which python)
+    #Your virtual environment's Python executable
+    #You need to specify the result of echo $(which python)
     -D PYTHON_EXECUTABLE=~/env/bin/python \
     -D BUILD_EXAMPLES=ON ~/projects/cv2/opencv
     该cmake命令应显示配置摘要。确保将Interpreter设置为与您的 virtualenv 关联的Python可执行文件。注意：CMake设置中有几个路径，请确保它们与您下载和保存OpenCV源代码的位置匹配。
 
   要从build文件夹中编译代码，请发出以下命令。
   make -j2
-  # Install OpenCV
+  #Install OpenCV
   sudo make install
   sudo ldconfig
   最后一步是将构建的OpenCV本机库正确链接到您的virtualenv。
   现在，本机库应安装在类似的位置/usr/local/lib/python3.6/site-packages/cv2/python-3.6/cv2.cpython-36m-xxx-linux-gnu.so。
-  # Go to the folder where OpenCV's native library is built
+  #Go to the folder where OpenCV's native library is built
   cd /usr/local/lib/python3.6/site-packages/cv2/python-3.6
-  # Rename
+  #Rename
   mv cv2.cpython-36m-xxx-linux-gnu.so cv2.so
-  # Go to your virtual environments site-packages folder
+  #Go to your virtual environments site-packages folder
   cd ~/env/lib/python3.6/site-packages/
-  # Symlink the native library
+  #Symlink the native library
   ln -s /usr/local/lib/python3.6/site-packages/cv2/python-3.6/cv2.so cv2.so
   恭喜你！现在您已经完成了从源代码编译OpenCV的工作。
   快速检查一下您是否正确完成了所有操作
@@ -115,6 +115,6 @@
   要测试OpenCV安装，请运行python并执行以下操作
   import cv2
 
-  # Should print 4.1.0
+  #Should print 4.1.0
   print(cv2.__version__)
 
