@@ -82,10 +82,10 @@
     -D INSTALL_PYTHON_EXAMPLES=ON \
     -D INSTALL_C_EXAMPLES=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
-    #Contrib path
+    # Contrib path
     -D OPENCV_EXTRA_MODULES_PATH=~/projects/cv2/opencv_contrib/modules \
-    #Your virtual environment's Python executable
-    #You need to specify the result of echo $(which python)
+    # Your virtual environment's Python executable
+    # You need to specify the result of echo $(which python)
     -D PYTHON_EXECUTABLE=~/env/bin/python \
     -D BUILD_EXAMPLES=ON ~/projects/cv2/opencv
     
@@ -102,7 +102,7 @@
   
   现在，本机库应安装在类似的位置/usr/local/lib/python3.6/site-packages/cv2/python-3.6/cv2.cpython-36m-xxx-linux-gnu.so。
   
-    #Go to the folder where OpenCV's native library is built
+    # Go to the folder where OpenCV's native library is built
     cd /usr/local/lib/python3.6/site-packages/cv2/python-3.6
     # Rename
     mv cv2.cpython-36m-xxx-linux-gnu.so cv2.so
