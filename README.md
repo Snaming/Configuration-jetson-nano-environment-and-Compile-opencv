@@ -1,1 +1,1 @@
-# jetson-nano-opencv-
+# 配置jetson nano环境
