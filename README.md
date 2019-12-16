@@ -1,21 +1,21 @@
 # 配置jetson nano环境
-1、烧写系统
+## 1、烧写系统
   访问官方的《Getting Started With Jetson Nano Developer Kit》。完成准备安装----将镜像烧写到microSD卡，开机并设置和首次启动信息。
   网址：https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
 
-2、安装依赖
+## 2、安装依赖
   打开命令终端窗口并执行以下命令：
   sudo apt-get update
   sudo apt-get upgrade
   sudo apt-get install build-essential python3 python3-dev python3-pip libhdf5-serial-dev hdf5-tools nano ntp
 
-3、设定虚拟环境
+## 3、设定虚拟环境
   pip3 install virtualenv
   python3 -m virtualenv -p python3 env --system-site-packages
   echo "source env/bin/activate" >> ~/.bashrc
   source ~/.bashrc
 
-4、安装OpenCV
+## 4、安装OpenCV
   要在Jetson Nano上安装Open CV，您需要从源代码构建它。构建OpenCV的第一步是在Jetson Nano上定义交换空间。Jetson Nano具有4GBRAM。这不足以从源代码构建OpenCV。因此，我们需要在Nano上定义交换空间以防止内存崩溃。
   #Allocates 4G of additional swap space at /var/swapfile
   sudo fallocate -l 4G /var/swapfile
